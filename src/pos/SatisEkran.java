@@ -41,7 +41,8 @@ public class SatisEkran extends JFrame {
 	}
 	Connection conn =  null;
 	
-	JLabel lblUsername, lblAdiSoyadi, lblGorev;
+	JLabel lblUsername;
+	private JLabel lblAdminPaneli;
 	
 	/**
 	 * Create the frame.
@@ -49,7 +50,7 @@ public class SatisEkran extends JFrame {
 	public SatisEkran() {
 		setTitle("Giri\u015F Ekran");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(550, 250, 500, 500);
+		setBounds(550, 250, 600, 500);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(82, 82, 82));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -58,25 +59,20 @@ public class SatisEkran extends JFrame {
 		contentPane.setLayout(null);
 		
 		lblUsername = new JLabel("");
-		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
+		lblUsername.setVerticalAlignment(SwingConstants.TOP);
+		lblUsername.setHorizontalAlignment(SwingConstants.LEFT);
 		lblUsername.setForeground(Color.WHITE);
-		lblUsername.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
-		lblUsername.setBounds(164, 54, 101, 50);
+		lblUsername.setFont(new Font("Arial Narrow", Font.PLAIN, 22));
+		lblUsername.setBounds(147, 6, 218, 50);
 		contentPane.add(lblUsername);
 		
-		lblAdiSoyadi = new JLabel("");
-		lblAdiSoyadi.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAdiSoyadi.setForeground(Color.WHITE);
-		lblAdiSoyadi.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
-		lblAdiSoyadi.setBounds(275, 54, 126, 50);
-		contentPane.add(lblAdiSoyadi);
-		
-		lblGorev = new JLabel("");
-		lblGorev.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGorev.setForeground(Color.WHITE);
-		lblGorev.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
-		lblGorev.setBounds(164, 11, 155, 50);
-		contentPane.add(lblGorev);
+		lblAdminPaneli = new JLabel("Güncel kullanıcı:");
+		lblAdminPaneli.setVerticalAlignment(SwingConstants.TOP);
+		lblAdminPaneli.setHorizontalAlignment(SwingConstants.LEFT);
+		lblAdminPaneli.setForeground(Color.WHITE);
+		lblAdminPaneli.setFont(new Font("Arial Narrow", Font.PLAIN, 22));
+		lblAdminPaneli.setBounds(6, 6, 145, 50);
+		contentPane.add(lblAdminPaneli);
 		
 		
 	}

@@ -130,7 +130,7 @@ public class Giris extends JFrame {
 						SatisEkran se = new SatisEkran();
 						se.setVisible(true);
 						se.lblUsername.setText(username);
-						se.lblAdiSoyadi.setText(AdiSoyadi);
+						//se.lblAdiSoyadi.setText(AdiSoyadi);
 					}else
 					{
 						JOptionPane.showMessageDialog(null, "Başarısız..");

@@ -47,9 +47,9 @@ public class AdminEkran extends JFrame {
 	 * Create the frame.
 	 */
 	public AdminEkran() {
-		setTitle("Admin Pnaeli");
+		setTitle("Admin Paneli");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(550, 250, 500, 500);
+		setBounds(550, 250, 600, 500);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(82, 82, 82));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -69,14 +69,14 @@ public class AdminEkran extends JFrame {
 		btnYeniUrun.setBackground(new Color(255, 255, 255));
 		btnYeniUrun.setForeground(Color.BLACK);
 		btnYeniUrun.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
-		btnYeniUrun.setBounds(98, 117, 310, 50);
+		btnYeniUrun.setBounds(145, 117, 310, 50);
 		contentPane.add(btnYeniUrun);
 		
 		JButton btnYeniKasiyer = new JButton("Yeni Kasiyer Ekle");
 		btnYeniKasiyer.setForeground(Color.BLACK);
 		btnYeniKasiyer.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
 		btnYeniKasiyer.setBackground(Color.WHITE);
-		btnYeniKasiyer.setBounds(98, 306, 310, 50);
+		btnYeniKasiyer.setBounds(145, 306, 310, 50);
 		contentPane.add(btnYeniKasiyer);
 		
 		JButton btnUrunSil = new JButton("Urun Sil");
@@ -90,21 +90,21 @@ public class AdminEkran extends JFrame {
 		btnUrunSil.setBackground(new Color(255, 255, 255));
 		btnUrunSil.setForeground(Color.BLACK);
 		btnUrunSil.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
-		btnUrunSil.setBounds(98, 220, 310, 50);
+		btnUrunSil.setBounds(145, 220, 310, 50);
 		contentPane.add(btnUrunSil);
 		
 		JButton btnKasiyerSil = new JButton("Kasiyer Sil");
 		btnKasiyerSil.setForeground(Color.BLACK);
 		btnKasiyerSil.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
 		btnKasiyerSil.setBackground(Color.WHITE);
-		btnKasiyerSil.setBounds(98, 354, 310, 50);
+		btnKasiyerSil.setBounds(145, 354, 310, 50);
 		contentPane.add(btnKasiyerSil);
 		
 		JLabel lblAdminPaneli = new JLabel("Admin Paneli");
 		lblAdminPaneli.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAdminPaneli.setForeground(Color.WHITE);
 		lblAdminPaneli.setFont(new Font("Arial Narrow", Font.PLAIN, 32));
-		lblAdminPaneli.setBounds(98, 6, 310, 50);
+		lblAdminPaneli.setBounds(145, 6, 310, 50);
 		contentPane.add(lblAdminPaneli);
 		
 		JLabel lblUrunIslemleri = new JLabel("Urun Islemleri:");
@@ -112,7 +112,7 @@ public class AdminEkran extends JFrame {
 		lblUrunIslemleri.setHorizontalAlignment(SwingConstants.LEFT);
 		lblUrunIslemleri.setForeground(Color.WHITE);
 		lblUrunIslemleri.setFont(new Font("Arial Narrow", Font.PLAIN, 21));
-		lblUrunIslemleri.setBounds(98, 68, 155, 50);
+		lblUrunIslemleri.setBounds(145, 68, 155, 50);
 		contentPane.add(lblUrunIslemleri);
 		
 		JLabel lblPersonelIslemleri = new JLabel("Personel Islemleri:");
@@ -120,7 +120,7 @@ public class AdminEkran extends JFrame {
 		lblPersonelIslemleri.setHorizontalAlignment(SwingConstants.LEFT);
 		lblPersonelIslemleri.setForeground(Color.WHITE);
 		lblPersonelIslemleri.setFont(new Font("Arial Narrow", Font.PLAIN, 21));
-		lblPersonelIslemleri.setBounds(98, 257, 155, 50);
+		lblPersonelIslemleri.setBounds(145, 257, 155, 50);
 		contentPane.add(lblPersonelIslemleri);
 		
 		JButton btnCikis = new JButton("Çıkış");
@@ -134,7 +134,7 @@ public class AdminEkran extends JFrame {
 		btnCikis.setForeground(Color.BLACK);
 		btnCikis.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
 		btnCikis.setBackground(Color.WHITE);
-		btnCikis.setBounds(321, 416, 173, 50);
+		btnCikis.setBounds(368, 416, 173, 50);
 		contentPane.add(btnCikis);
 		
 		JButton btnStokEkle = new JButton("Stok Ekle");
@@ -148,7 +148,7 @@ public class AdminEkran extends JFrame {
 		btnStokEkle.setForeground(Color.BLACK);
 		btnStokEkle.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
 		btnStokEkle.setBackground(Color.WHITE);
-		btnStokEkle.setBounds(98, 167, 310, 50);
+		btnStokEkle.setBounds(145, 167, 310, 50);
 		contentPane.add(btnStokEkle);
 	}
 }
