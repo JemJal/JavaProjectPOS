@@ -77,5 +77,24 @@ INSERT INTO Urunler (Ad, Fiyat, Stok)
 VALUES ('Maden Suyu (6''lı Paket)', 22.75, 180);
 
 
+---
+
+
+CREATE TABLE Kasiyerler (
+HesapNo INTEGER PRIMARY KEY AUTOINCREMENT,
+KullaniciAdi varchar(30),
+AdiSoyadi varchar(30),
+PinKodu Integer
+);
+
+
+INSERT INTO Kullanici (KullaniciAdi, AdiSoyadi, PinKodu) 
+VALUES ('ayse', 'Ayşe Kaya', 1234);
+
+
+INSERT INTO Kullanici (KullaniciAdi, AdiSoyadi, PinKodu) 
+VALUES ('mehmet', 'Mehmet Sönmez', 5678);
+
+
 
 

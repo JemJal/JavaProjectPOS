@@ -28,7 +28,7 @@ public class StokEkle extends JFrame {
     private JPanel contentPane;
     private JTable urunlerTable;
     private JTextField urunNoText;
-    private JTextField miktarText; // New text field for the amount
+    private JTextField miktarText;
     private DefaultTableModel model;
 
     Connection conn = null;
@@ -70,7 +70,6 @@ public class StokEkle extends JFrame {
         urunlerTable = new JTable();
         scrollPane.setViewportView(urunlerTable);
 
-        // --- UI for Inputs (Modified for two inputs) ---
         JLabel lblUrunNo = new JLabel("Ürün No:");
         lblUrunNo.setHorizontalAlignment(SwingConstants.RIGHT);
         lblUrunNo.setForeground(Color.WHITE);
@@ -97,15 +96,12 @@ public class StokEkle extends JFrame {
         contentPane.add(miktarText);
         miktarText.setColumns(10);
         
-        // The "Stok Ekle" (Add Stock) Button
         JButton btnStokEkle = new JButton("Stok Ekle");
         btnStokEkle.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Get text from both fields
                 String urunNoStr = urunNoText.getText();
                 String miktarStr = miktarText.getText();
 
-                // Check if either field is empty
                 if (urunNoStr.isEmpty() || miktarStr.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Lütfen hem Ürün No hem de Miktar giriniz.", "Uyarı", JOptionPane.WARNING_MESSAGE);
                     return;
@@ -115,26 +111,22 @@ public class StokEkle extends JFrame {
                     int urunNoToUpdate = Integer.parseInt(urunNoStr);
                     int miktarToAdd = Integer.parseInt(miktarStr);
 
-                    // A simple check to ensure a positive amount is being added
                     if (miktarToAdd <= 0) {
                         JOptionPane.showMessageDialog(null, "Lütfen 0'dan büyük bir miktar giriniz.", "Geçersiz Miktar", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
 
-                    // *** THE CORE LOGIC: UPDATE a record ***
-                    // This SQL command adds the new amount to the existing Stok value.
                     String sql = "UPDATE Urunler SET Stok = Stok + ? WHERE UrunNo = ?";
                     
                     PreparedStatement prst = conn.prepareStatement(sql);
-                    // IMPORTANT: The order of parameters must match the '?' in the SQL query
-                    prst.setInt(1, miktarToAdd);      // First '?': the amount to add
-                    prst.setInt(2, urunNoToUpdate);   // Second '?': the product number
+                    prst.setInt(1, miktarToAdd);   
+                    prst.setInt(2, urunNoToUpdate);   
 
                     int affectedRows = prst.executeUpdate();
 
                     if (affectedRows > 0) {
                         JOptionPane.showMessageDialog(null, "Stok başarıyla güncellendi.", "Başarılı", JOptionPane.INFORMATION_MESSAGE);
-                        urunleriYukle(); // Refresh the table
+                        urunleriYukle();
                         urunNoText.setText("");
                         miktarText.setText("");
                     } else {
@@ -156,7 +148,6 @@ public class StokEkle extends JFrame {
         btnStokEkle.setBounds(401, 416, 173, 50);
         contentPane.add(btnStokEkle);
 
-        // The "Geri" (Back) Button - unchanged from UrunSil.java
         JButton btnGeri = new JButton("Geri");
         btnGeri.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -175,8 +166,7 @@ public class StokEkle extends JFrame {
     }
 
     /**
-     * This method is identical to the one in UrunSil.java.
-     * It fetches data from the Urunler table and populates the JTable.
+     * Fetch Urunler and create a JTable
      */
     private void urunleriYukle() {
         String[] columnNames = {"UrunNo", "Ad", "Fiyat", "Stok"};

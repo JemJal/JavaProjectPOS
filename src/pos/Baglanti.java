@@ -13,7 +13,7 @@ public class Baglanti {
 		try
 		{
 			Class.forName("org.sqlite.JDBC");
-			conn = DriverManager.getConnection("jdbc:sqlite:/Users/cem/Library/Mobile Documents/com~apple~CloudDocs/Yasar/Coding/JavaProjectPOS/Data/memory.db");
+			conn = DriverManager.getConnection("jdbc:sqlite:Data/memory.db");
 			return conn;
 		} catch(Exception hata)
 		{

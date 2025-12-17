@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.JTextArea;
 
 public class Giris extends JFrame {
 
@@ -46,7 +47,7 @@ public class Giris extends JFrame {
 	public Giris() {
 		setTitle("Giri\u015F Ekran");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(550, 250, 500, 500);
+		setBounds(550, 250, 600, 500);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(82, 82, 82));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -55,12 +56,12 @@ public class Giris extends JFrame {
 		contentPane.setLayout(null);
 		
 		usernameText = new JTextField();
-		usernameText.setBounds(144, 148, 225, 30);
+		usernameText.setBounds(195, 148, 225, 30);
 		contentPane.add(usernameText);
 		usernameText.setColumns(10);
 		
 		passText = new JTextField();
-		passText.setBounds(144, 198, 225, 30);
+		passText.setBounds(195, 198, 225, 30);
 		contentPane.add(passText);
 		passText.setColumns(10);
 		
@@ -70,22 +71,27 @@ public class Giris extends JFrame {
 		
 		btnGiris.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnGiris.setBackground(new Color(128, 128, 0));
-		btnGiris.setBounds(206, 240, 100, 30);
+		btnGiris.setBounds(251, 241, 100, 30);
 		contentPane.add(btnGiris);
 		
 		JLabel lblKullaniciAdi = new JLabel("Kullanıcı Adı:");
 		lblKullaniciAdi.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblKullaniciAdi.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblKullaniciAdi.setForeground(new Color(255, 255, 255));
-		lblKullaniciAdi.setBounds(54, 156, 80, 14);
+		lblKullaniciAdi.setBounds(105, 156, 80, 14);
 		contentPane.add(lblKullaniciAdi);
 		
 		JLabel lblPinKodu = new JLabel("Şifre:");
 		lblPinKodu.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblPinKodu.setForeground(Color.WHITE);
 		lblPinKodu.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPinKodu.setBounds(54, 206, 80, 14);
+		lblPinKodu.setBounds(105, 206, 80, 14);
 		contentPane.add(lblPinKodu);
+		
+		JTextArea txtrUserAdmin = new JTextArea();
+		txtrUserAdmin.setText("user: admin  -> pass: 9999\nuser: ayse -> pass: 1234\nuser: mehmet -> pass: 5678");
+		txtrUserAdmin.setBounds(200, 375, 207, 70);
+		contentPane.add(txtrUserAdmin);
 		
 		btnGiris.addActionListener(new ActionListener() {
 			
@@ -120,11 +126,11 @@ public class Giris extends JFrame {
 						ae.setVisible(true);
 					} else if(cnt == 2) {
 						dispose();
-						JOptionPane.showMessageDialog(null, "Merhaba: Kasiyer girişi yapıldı");
-						KasiyerEkran ke = new KasiyerEkran();
-						ke.setVisible(true);
-						ke.lblUsername.setText(username);
-						ke.lblAdiSoyadi.setText(AdiSoyadi);
+						//JOptionPane.showMessageDialog(null, "Merhaba: Kasiyer girişi yapıldı");
+						SatisEkran se = new SatisEkran();
+						se.setVisible(true);
+						se.lblUsername.setText(username);
+						se.lblAdiSoyadi.setText(AdiSoyadi);
 					}else
 					{
 						JOptionPane.showMessageDialog(null, "Başarısız..");
