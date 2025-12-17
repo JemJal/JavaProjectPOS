@@ -2,7 +2,6 @@ package pos;
 import java.awt.EventQueue;
 
 import java.sql.*;
-import java.sql.DriverManager;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -74,6 +73,33 @@ public class SatisEkran extends JFrame {
 		lblAdminPaneli.setBounds(6, 6, 145, 50);
 		contentPane.add(lblAdminPaneli);
 		
+		JButton btnGeri = new JButton("Geri");
+        btnGeri.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                AdminEkran ae = new AdminEkran();
+                ae.setVisible(true);
+            }
+        });
+        btnGeri.setForeground(Color.BLACK);
+        btnGeri.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
+        btnGeri.setBackground(Color.WHITE);
+        btnGeri.setBounds(6, 416, 173, 50);
+        contentPane.add(btnGeri);
+
+        JButton btnKaydet = new JButton("Kaydet");
+		btnKaydet.setForeground(Color.BLACK);
+		
+		btnKaydet.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    }
+		});
+		
+		btnKaydet.setForeground(Color.BLACK);
+		btnKaydet.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
+		btnKaydet.setBackground(Color.WHITE);
+		btnKaydet.setBounds(421, 416, 173, 50);
+		contentPane.add(btnKaydet);
 		
 	}
 }

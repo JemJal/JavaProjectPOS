@@ -90,7 +90,7 @@ public class StokEkle extends JFrame {
         lblMiktar.setBounds(270, 350, 120, 30);
         contentPane.add(lblMiktar);
 
-        miktarText = new JTextField(); // The new text field
+        miktarText = new JTextField(); 
         miktarText.setFont(new Font("Tahoma", Font.BOLD, 14));
         miktarText.setBounds(400, 350, 100, 30);
         contentPane.add(miktarText);
