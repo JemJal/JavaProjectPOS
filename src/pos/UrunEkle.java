@@ -51,7 +51,7 @@ public class UrunEkle extends JFrame {
 		conn = Baglanti.Bagla();
 		setTitle("Urun Ekleme Paneli");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(550, 250, 500, 500);
+		setBounds(550, 250, 600, 500);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(82, 82, 82));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -63,35 +63,35 @@ public class UrunEkle extends JFrame {
 		lblUrunAdi.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblUrunAdi.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblUrunAdi.setForeground(new Color(255, 255, 255));
-		lblUrunAdi.setBounds(54, 114, 80, 14);
+		lblUrunAdi.setBounds(116, 163, 80, 14);
 		contentPane.add(lblUrunAdi);
 		
 		JLabel lblMiktari = new JLabel("Miktar:");
 		lblMiktari.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblMiktari.setForeground(Color.WHITE);
 		lblMiktari.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblMiktari.setBounds(54, 198, 80, 14);
+		lblMiktari.setBounds(116, 247, 80, 14);
 		contentPane.add(lblMiktari);
 
 		JLabel lblFiyat = new JLabel("Fiyati:");
 		lblFiyat.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblFiyat.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblFiyat.setForeground(new Color(255, 255, 255));
-		lblFiyat.setBounds(54, 156, 80, 14);
+		lblFiyat.setBounds(116, 205, 80, 14);
 		contentPane.add(lblFiyat);
 		
 		urunAdiText = new JTextField();
-		urunAdiText.setBounds(156, 107, 225, 30);
+		urunAdiText.setBounds(218, 156, 225, 30);
 		contentPane.add(urunAdiText);
 		urunAdiText.setColumns(10);
 		
 		urunMiktarText = new JTextField();
-		urunMiktarText.setBounds(156, 191, 225, 30);
+		urunMiktarText.setBounds(218, 240, 225, 30);
 		contentPane.add(urunMiktarText);
 		urunMiktarText.setColumns(10);
 		
 		urunFiyatText = new JTextField();
-		urunFiyatText.setBounds(156, 149, 225, 30);
+		urunFiyatText.setBounds(218, 198, 225, 30);
 		contentPane.add(urunFiyatText);
 		urunFiyatText.setColumns(10);
 		
@@ -165,7 +165,7 @@ public class UrunEkle extends JFrame {
 		btnKaydet.setForeground(Color.BLACK);
 		btnKaydet.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
 		btnKaydet.setBackground(Color.WHITE);
-		btnKaydet.setBounds(321, 416, 173, 50);
+		btnKaydet.setBounds(421, 416, 173, 50);
 		contentPane.add(btnKaydet);
 		
 		
