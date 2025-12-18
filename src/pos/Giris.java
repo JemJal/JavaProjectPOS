@@ -129,7 +129,7 @@ public class Giris extends JFrame {
 						//JOptionPane.showMessageDialog(null, "Merhaba: Kasiyer girişi yapıldı");
 						SatisEkran se = new SatisEkran();
 						se.setVisible(true);
-						se.lblUsername.setText(username);
+						//se.lblUsername.setText(username);
 						//se.lblAdiSoyadi.setText(AdiSoyadi);
 					}else
 					{

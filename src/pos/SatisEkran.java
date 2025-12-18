@@ -1,105 +1,248 @@
 package pos;
-import java.awt.EventQueue;
-
-import java.sql.*;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import java.awt.Color;
-import javax.swing.JButton;
-import javax.swing.JTextField;
+import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 public class SatisEkran extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField usernameText;
-	private JTextField passText;
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Giris frame = new Giris();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	Connection conn =  null;
-	
-	JLabel lblUsername;
-	private JLabel lblAdminPaneli;
-	
-	/**
-	 * Create the frame.
-	 */
-	public SatisEkran() {
-		setTitle("Giri\u015F Ekran");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(550, 250, 600, 500);
-		contentPane = new JPanel();
-		contentPane.setBackground(new Color(82, 82, 82));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    private static final long serialVersionUID = 1L;
+    private JPanel contentPane;
+    private JTable satisTable;
+    private DefaultTableModel model;
+    private JLabel lblToplamTutar;
+    private List<Integer> urunNoList;
+    
+    private double hesaplananTutar = 0.0;
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		lblUsername = new JLabel("");
-		lblUsername.setVerticalAlignment(SwingConstants.TOP);
-		lblUsername.setHorizontalAlignment(SwingConstants.LEFT);
-		lblUsername.setForeground(Color.WHITE);
-		lblUsername.setFont(new Font("Arial Narrow", Font.PLAIN, 22));
-		lblUsername.setBounds(147, 6, 218, 50);
-		contentPane.add(lblUsername);
-		
-		lblAdminPaneli = new JLabel("Güncel kullanıcı:");
-		lblAdminPaneli.setVerticalAlignment(SwingConstants.TOP);
-		lblAdminPaneli.setHorizontalAlignment(SwingConstants.LEFT);
-		lblAdminPaneli.setForeground(Color.WHITE);
-		lblAdminPaneli.setFont(new Font("Arial Narrow", Font.PLAIN, 22));
-		lblAdminPaneli.setBounds(6, 6, 145, 50);
-		contentPane.add(lblAdminPaneli);
-		
-		JButton btnGeri = new JButton("Geri");
+    Connection conn = null;
+
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    SatisEkran frame = new SatisEkran();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * Create the frame.
+     */
+    public SatisEkran() {
+        conn = Baglanti.Bagla();
+        urunNoList = new ArrayList<>();
+
+        setTitle("Satış Ekranı");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(550, 250, 700, 550);
+        contentPane = new JPanel();
+        contentPane.setBackground(new Color(82, 82, 82));
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBounds(10, 11, 664, 380);
+        contentPane.add(scrollPane);
+
+        satisTable = new JTable();
+        scrollPane.setViewportView(satisTable);
+        
+        lblToplamTutar = new JLabel("Toplam Tutar: 0.00 TL");
+        lblToplamTutar.setHorizontalAlignment(SwingConstants.CENTER);
+        lblToplamTutar.setFont(new Font("Arial", Font.BOLD, 18));
+        lblToplamTutar.setForeground(Color.WHITE);
+        lblToplamTutar.setBounds(10, 402, 664, 25);
+        contentPane.add(lblToplamTutar);
+
+        // --- Back Button (Geri) ---
+        JButton btnGeri = new JButton("Geri");
         btnGeri.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                AdminEkran ae = new AdminEkran();
-                ae.setVisible(true);
+            	dispose();
+				Giris ge = new Giris();
+				ge.setVisible(true);
             }
         });
         btnGeri.setForeground(Color.BLACK);
         btnGeri.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
         btnGeri.setBackground(Color.WHITE);
-        btnGeri.setBounds(6, 416, 173, 50);
+        btnGeri.setBounds(10, 450, 173, 50);
         contentPane.add(btnGeri);
 
+        // --- Calculate Button (Hesapla) ---
+        JButton btnHesapla = new JButton("Hesapla");
+        btnHesapla.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                hesaplananTutar = 0.0; // Reset total
+                
+                // Stop any cell editing that might be in progress to save the value
+                if (satisTable.isEditing()) {
+                    satisTable.getCellEditor().stopCellEditing();
+                }
+                
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    try {
+                        double fiyat = Double.parseDouble(model.getValueAt(i, 1).toString());
+                        int satisMiktari = Integer.parseInt(model.getValueAt(i, 3).toString());
+                        hesaplananTutar += (fiyat * satisMiktari);
+                    } catch (NumberFormatException ex) {
+                        // This handles cases where the "Satış Miktarı" cell has invalid text
+                        // We'll just treat it as 0
+                    }
+                }
+                lblToplamTutar.setText(String.format("Toplam Tutar: %.2f TL", hesaplananTutar));
+            }
+        });
+        btnHesapla.setForeground(Color.BLACK);
+        btnHesapla.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
+        btnHesapla.setBackground(Color.WHITE);
+        btnHesapla.setBounds(252, 450, 173, 50);
+        contentPane.add(btnHesapla);
+
+        // --- Save Button (Kaydet) ---
         JButton btnKaydet = new JButton("Kaydet");
-		btnKaydet.setForeground(Color.BLACK);
-		
-		btnKaydet.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		    }
-		});
-		
-		btnKaydet.setForeground(Color.BLACK);
-		btnKaydet.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
-		btnKaydet.setBackground(Color.WHITE);
-		btnKaydet.setBounds(421, 416, 173, 50);
-		contentPane.add(btnKaydet);
-		
-	}
+        btnKaydet.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (hesaplananTutar <= 0) {
+                    JOptionPane.showMessageDialog(null, "Kaydedilecek bir satış yok. Lütfen önce ürün miktarlarını girip 'Hesapla' butonuna basın.", "Uyarı", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                
+                // Stop any cell editing
+                if (satisTable.isEditing()) {
+                    satisTable.getCellEditor().stopCellEditing();
+                }
+
+                // Confirmation dialog
+                int confirmation = JOptionPane.showConfirmDialog(null, 
+                        String.format("Toplam %.2f TL tutarındaki satışı onaylıyor musunuz? Stoklar güncellenecektir.", hesaplananTutar),
+                        "Satış Onayı", JOptionPane.YES_NO_OPTION);
+
+                if (confirmation == JOptionPane.YES_OPTION) {
+                    try {
+                        conn.setAutoCommit(false); // Start transaction
+
+                        boolean stokYeterli = true;
+                        // Loop to update stock for each sold item
+                        for (int i = 0; i < model.getRowCount(); i++) {
+                            int satisMiktari = Integer.parseInt(model.getValueAt(i, 3).toString());
+                            if (satisMiktari > 0) {
+                                int mevcutStok = Integer.parseInt(model.getValueAt(i, 2).toString());
+                                if (satisMiktari > mevcutStok) {
+                                    JOptionPane.showMessageDialog(null, "Yetersiz stok! '" + model.getValueAt(i, 0) + "' için stokta sadece " + mevcutStok + " adet var.", "Stok Hatası", JOptionPane.ERROR_MESSAGE);
+                                    stokYeterli = false;
+                                    break; // Stop the loop
+                                }
+
+                                int urunNo = urunNoList.get(i); // Get UrunNo from our hidden list
+                                String sql = "UPDATE Urunler SET Stok = Stok - ? WHERE UrunNo = ?";
+                                PreparedStatement prst = conn.prepareStatement(sql);
+                                prst.setInt(1, satisMiktari);
+                                prst.setInt(2, urunNo);
+                                prst.executeUpdate();
+                                prst.close();
+                            }
+                        }
+
+                        if (stokYeterli) {
+                            conn.commit(); // Finalize all updates if stock was sufficient
+                            JOptionPane.showMessageDialog(null, "Satış başarıyla tamamlandı. Stoklar güncellendi.", "Başarılı", JOptionPane.INFORMATION_MESSAGE);
+                            urunleriYukle(); // Refresh the screen
+                            lblToplamTutar.setText("Toplam Tutar: 0.00 TL");
+                            hesaplananTutar = 0.0;
+                        } else {
+                            conn.rollback(); // Cancel all updates if stock was insufficient
+                        }
+
+                    } catch (Exception hata) {
+                        try { conn.rollback(); } catch (Exception ex) {}
+                        JOptionPane.showMessageDialog(null, "Bir hata oluştu: " + hata.getMessage(), "Veritabanı Hatası", JOptionPane.ERROR_MESSAGE);
+                        hata.printStackTrace();
+                    } finally {
+                        try { conn.setAutoCommit(true); } catch (Exception ex) {}
+                    }
+                }
+            }
+        });
+        btnKaydet.setForeground(Color.BLACK);
+        btnKaydet.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
+        btnKaydet.setBackground(Color.WHITE);
+        btnKaydet.setBounds(494, 450, 173, 50);
+        contentPane.add(btnKaydet);
+
+        urunleriYukle(); // Load products when the screen opens
+    }
+
+    /**
+     * This method fetches data and populates the JTable.
+     * It uses a custom TableModel to make the last column editable.
+     */
+    private void urunleriYukle() {
+        // Clear the list that stores UrunNo before reloading
+        urunNoList.clear(); 
+        
+        String[] columnNames = {"Ürün Adı", "Fiyat (TL)", "Stok", "Satış Miktarı"};
+        
+        // Custom model to make only the 4th column (index 3) editable
+        model = new DefaultTableModel(columnNames, 0) {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 3; // Only the "Satış Miktarı" column is editable
+            }
+        };
+
+        try {
+            String sql = "SELECT UrunNo, Ad, Fiyat, Stok FROM Urunler WHERE Stok > 0 ORDER BY Ad";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                urunNoList.add(rs.getInt("UrunNo")); // Store the UrunNo
+
+                String ad = rs.getString("Ad");
+                double fiyat = rs.getDouble("Fiyat");
+                int stok = rs.getInt("Stok");
+
+                Object[] row = {ad, fiyat, stok, 0}; // Default sale amount is 0
+                model.addRow(row);
+            }
+            
+            satisTable.setModel(model);
+            rs.close();
+            stmt.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ürünler yüklenirken hata: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }
