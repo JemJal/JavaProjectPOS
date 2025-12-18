@@ -28,7 +28,7 @@ public class UrunSil extends JFrame {
     private JPanel contentPane;
     private JTable urunlerTable;
     private JTextField urunNoText;
-    private DefaultTableModel model; // Table model to manage data
+    private DefaultTableModel model;
 
     Connection conn = null;
 
@@ -136,7 +136,7 @@ public class UrunSil extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 AdminEkran ae = new AdminEkran();
-                ae.setVisible(true);
+				ae.setVisible(true);
             }
         });
         btnGeri.setForeground(Color.BLACK);

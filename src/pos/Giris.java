@@ -111,7 +111,7 @@ public class Giris extends JFrame {
 						username = rslt.getString("KullaniciAdi");
 						AdiSoyadi = rslt.getString("AdiSoyadi");
 						Gorev = rslt.getString("Gorev");
-						if(Gorev.compareTo("admin") == 0) {
+						if(Gorev.compareTo("admin") == 0 || Gorev.compareTo("super-admin") == 0) {
 							cnt = 1;
 						} else if (Gorev.compareTo("kasiyer") == 0) {
 							cnt = 2;
@@ -121,16 +121,12 @@ public class Giris extends JFrame {
 					if (cnt == 1)
 					{
 						dispose();
-						//JOptionPane.showMessageDialog(null, "Merhaba: Admin girişi yapıldı");
-						AdminEkran ae = new AdminEkran();
+						AdminEkran ae = new AdminEkran(username);
 						ae.setVisible(true);
 					} else if(cnt == 2) {
 						dispose();
-						//JOptionPane.showMessageDialog(null, "Merhaba: Kasiyer girişi yapıldı");
 						SatisEkran se = new SatisEkran();
 						se.setVisible(true);
-						//se.lblUsername.setText(username);
-						//se.lblAdiSoyadi.setText(AdiSoyadi);
 					}else
 					{
 						JOptionPane.showMessageDialog(null, "Başarısız..");

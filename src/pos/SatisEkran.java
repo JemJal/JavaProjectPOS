@@ -82,7 +82,6 @@ public class SatisEkran extends JFrame {
         lblToplamTutar.setBounds(10, 402, 664, 25);
         contentPane.add(lblToplamTutar);
 
-        // --- Back Button (Geri) ---
         JButton btnGeri = new JButton("Geri");
         btnGeri.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -97,13 +96,11 @@ public class SatisEkran extends JFrame {
         btnGeri.setBounds(10, 450, 173, 50);
         contentPane.add(btnGeri);
 
-        // --- Calculate Button (Hesapla) ---
         JButton btnHesapla = new JButton("Hesapla");
         btnHesapla.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                hesaplananTutar = 0.0; // Reset total
+                hesaplananTutar = 0.0;
                 
-                // Stop any cell editing that might be in progress to save the value
                 if (satisTable.isEditing()) {
                     satisTable.getCellEditor().stopCellEditing();
                 }
@@ -114,8 +111,7 @@ public class SatisEkran extends JFrame {
                         int satisMiktari = Integer.parseInt(model.getValueAt(i, 3).toString());
                         hesaplananTutar += (fiyat * satisMiktari);
                     } catch (NumberFormatException ex) {
-                        // This handles cases where the "Satış Miktarı" cell has invalid text
-                        // We'll just treat it as 0
+                
                     }
                 }
                 lblToplamTutar.setText(String.format("Toplam Tutar: %.2f TL", hesaplananTutar));
@@ -127,7 +123,6 @@ public class SatisEkran extends JFrame {
         btnHesapla.setBounds(252, 450, 173, 50);
         contentPane.add(btnHesapla);
 
-        // --- Save Button (Kaydet) ---
         JButton btnKaydet = new JButton("Kaydet");
         btnKaydet.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -136,22 +131,20 @@ public class SatisEkran extends JFrame {
                     return;
                 }
                 
-                // Stop any cell editing
                 if (satisTable.isEditing()) {
                     satisTable.getCellEditor().stopCellEditing();
                 }
 
-                // Confirmation dialog
                 int confirmation = JOptionPane.showConfirmDialog(null, 
                         String.format("Toplam %.2f TL tutarındaki satışı onaylıyor musunuz? Stoklar güncellenecektir.", hesaplananTutar),
                         "Satış Onayı", JOptionPane.YES_NO_OPTION);
 
                 if (confirmation == JOptionPane.YES_OPTION) {
                     try {
-                        conn.setAutoCommit(false); // Start transaction
+                        conn.setAutoCommit(false); 
 
                         boolean stokYeterli = true;
-                        // Loop to update stock for each sold item
+                       
                         for (int i = 0; i < model.getRowCount(); i++) {
                             int satisMiktari = Integer.parseInt(model.getValueAt(i, 3).toString());
                             if (satisMiktari > 0) {
@@ -159,10 +152,10 @@ public class SatisEkran extends JFrame {
                                 if (satisMiktari > mevcutStok) {
                                     JOptionPane.showMessageDialog(null, "Yetersiz stok! '" + model.getValueAt(i, 0) + "' için stokta sadece " + mevcutStok + " adet var.", "Stok Hatası", JOptionPane.ERROR_MESSAGE);
                                     stokYeterli = false;
-                                    break; // Stop the loop
+                                    break; 
                                 }
 
-                                int urunNo = urunNoList.get(i); // Get UrunNo from our hidden list
+                                int urunNo = urunNoList.get(i); 
                                 String sql = "UPDATE Urunler SET Stok = Stok - ? WHERE UrunNo = ?";
                                 PreparedStatement prst = conn.prepareStatement(sql);
                                 prst.setInt(1, satisMiktari);
@@ -173,13 +166,13 @@ public class SatisEkran extends JFrame {
                         }
 
                         if (stokYeterli) {
-                            conn.commit(); // Finalize all updates if stock was sufficient
+                            conn.commit();
                             JOptionPane.showMessageDialog(null, "Satış başarıyla tamamlandı. Stoklar güncellendi.", "Başarılı", JOptionPane.INFORMATION_MESSAGE);
-                            urunleriYukle(); // Refresh the screen
+                            urunleriYukle(); 
                             lblToplamTutar.setText("Toplam Tutar: 0.00 TL");
                             hesaplananTutar = 0.0;
                         } else {
-                            conn.rollback(); // Cancel all updates if stock was insufficient
+                            conn.rollback();
                         }
 
                     } catch (Exception hata) {
@@ -198,25 +191,22 @@ public class SatisEkran extends JFrame {
         btnKaydet.setBounds(494, 450, 173, 50);
         contentPane.add(btnKaydet);
 
-        urunleriYukle(); // Load products when the screen opens
+        urunleriYukle(); 
     }
 
     /**
-     * This method fetches data and populates the JTable.
-     * It uses a custom TableModel to make the last column editable.
+     * Diğerleriyle aynı ama son column editable
      */
     private void urunleriYukle() {
-        // Clear the list that stores UrunNo before reloading
         urunNoList.clear(); 
         
         String[] columnNames = {"Ürün Adı", "Fiyat (TL)", "Stok", "Satış Miktarı"};
         
-        // Custom model to make only the 4th column (index 3) editable
         model = new DefaultTableModel(columnNames, 0) {
             private static final long serialVersionUID = 1L;
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 3; // Only the "Satış Miktarı" column is editable
+                return column == 3;
             }
         };
 
@@ -226,13 +216,13 @@ public class SatisEkran extends JFrame {
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                urunNoList.add(rs.getInt("UrunNo")); // Store the UrunNo
+                urunNoList.add(rs.getInt("UrunNo"));
 
                 String ad = rs.getString("Ad");
                 double fiyat = rs.getDouble("Fiyat");
                 int stok = rs.getInt("Stok");
 
-                Object[] row = {ad, fiyat, stok, 0}; // Default sale amount is 0
+                Object[] row = {ad, fiyat, stok, 0}; 
                 model.addRow(row);
             }
             

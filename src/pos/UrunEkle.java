@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -108,47 +107,38 @@ public class UrunEkle extends JFrame {
 
 		        PreparedStatement prst = null;
 		        try {
-		            // 1. Get the text from fields
 		            String ad = urunAdiText.getText();
 		            
-		            // 2. Convert text to numbers, handle both dot (.) and comma (,) for decimals
 		            String fiyatStr = urunFiyatText.getText().replace(',', '.');
 		            double fiyat = Double.parseDouble(fiyatStr);
 		            
 		            String stokStr = urunMiktarText.getText();
 		            int stok = Integer.parseInt(stokStr);
 
-		            // 3. Prepare the SQL command
 		            String komut = "INSERT INTO Urunler (Ad, Fiyat, Stok) VALUES (?, ?, ?)";
 		            prst = conn.prepareStatement(komut);
 
-		            // 4. Set parameters with the CORRECT data types
-		            prst.setString(1, ad);       // Parameter 1 is a String
-		            prst.setDouble(2, fiyat);    // Parameter 2 is a Double (for DECIMAL column)
-		            prst.setInt(3, stok);        // Parameter 3 is an Integer
+		            prst.setString(1, ad);   
+		            prst.setDouble(2, fiyat);  
+		            prst.setInt(3, stok);    
 
-		            // 5. Execute the command
-		            prst.executeUpdate(); // Use executeUpdate() for INSERT, UPDATE, DELETE
+		            prst.executeUpdate(); 
 
 		            JOptionPane.showMessageDialog(null, "Ürün başarıyla kaydedildi.", "Başarılı", JOptionPane.INFORMATION_MESSAGE);
 		            
-		            // Clear fields for the next entry instead of creating a new window
 		            urunAdiText.setText("");
 		            urunFiyatText.setText("");
 		            urunMiktarText.setText("");
-		            urunAdiText.requestFocus(); // Set focus back to the first field
+		            urunAdiText.requestFocus(); 
 
 		        } catch (NumberFormatException nfe) {
-		            // This catch block runs if the text cannot be converted to a number
 		            JOptionPane.showMessageDialog(null, "Lütfen Fiyat ve Miktar alanlarına geçerli sayılar giriniz.", "Geçersiz Veri", JOptionPane.ERROR_MESSAGE);
 		        
 		        } catch (Exception hata) {
-		            // This catches other potential errors, like SQL problems
 		            JOptionPane.showMessageDialog(null, "Bir veritabanı hatası oluştu: " + hata.getMessage(), "Hata", JOptionPane.ERROR_MESSAGE);
-		            hata.printStackTrace(); // Also print the full error to console for debugging
+		            hata.printStackTrace(); 
 		        
 		        } finally {
-		            // 6. IMPORTANT: Always close the PreparedStatement
 		            try {
 		                if (prst != null) {
 		                    prst.close();
@@ -158,7 +148,6 @@ public class UrunEkle extends JFrame {
 		            }
 		        }
 		        
-		        // --- END OF THE MAIN FIX ---
 		    }
 		});
 		
@@ -172,7 +161,7 @@ public class UrunEkle extends JFrame {
 		JButton btnGeri = new JButton("Geri");
 		btnGeri.setForeground(Color.BLACK);
 		
-		btnGeri.addActionListener(new ActionListener() {	
+		btnGeri.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				AdminEkran ae = new AdminEkran();

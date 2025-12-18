@@ -153,7 +153,7 @@ public class StokEkle extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 AdminEkran ae = new AdminEkran();
-                ae.setVisible(true);
+				ae.setVisible(true);
             }
         });
         btnGeri.setForeground(Color.BLACK);

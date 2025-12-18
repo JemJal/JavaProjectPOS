@@ -40,13 +40,24 @@ public class AdminEkran extends JFrame {
 		});
 	}
 	Connection conn =  null;
-	
+
 	JLabel lblUsername, lblAdiSoyadi, lblGorev;
-	
+
+	// Field to store current username
+	private String currentUsername;
+
 	/**
 	 * Create the frame.
 	 */
 	public AdminEkran() {
+		this(""); // Default constructor calls parameterized constructor with empty string
+	}
+
+	/**
+	 * Create the frame with username.
+	 */
+	public AdminEkran(String username) {
+		this.currentUsername = username;
 		setTitle("Admin Paneli");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(550, 250, 600, 500);
@@ -73,6 +84,13 @@ public class AdminEkran extends JFrame {
 		contentPane.add(btnYeniUrun);
 		
 		JButton btnYeniKasiyer = new JButton("Yeni Kasiyer Ekle");
+		btnYeniKasiyer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				KullaniciEkle ke = new KullaniciEkle();
+				ke.setVisible(true);
+			}
+		});
 		btnYeniKasiyer.setForeground(Color.BLACK);
 		btnYeniKasiyer.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
 		btnYeniKasiyer.setBackground(Color.WHITE);
@@ -94,6 +112,13 @@ public class AdminEkran extends JFrame {
 		contentPane.add(btnUrunSil);
 		
 		JButton btnKasiyerSil = new JButton("Kasiyer Sil");
+		btnKasiyerSil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				KullaniciSil ks = new KullaniciSil(currentUsername);
+				ks.setVisible(true);
+			}
+		});
 		btnKasiyerSil.setForeground(Color.BLACK);
 		btnKasiyerSil.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
 		btnKasiyerSil.setBackground(Color.WHITE);
