@@ -92,7 +92,6 @@ public class KullaniciSil extends JFrame {
                 try {
                     int hesapNoToDelete = Integer.parseInt(hesapNoStr);
                     
-                    // Fetch the user to check their role and username
                     String checkSql = "SELECT KullaniciAdi, Gorev FROM Kullanici WHERE HesapNo = ?";
                     PreparedStatement checkStmt = conn.prepareStatement(checkSql);
                     checkStmt.setInt(1, hesapNoToDelete);
@@ -108,19 +107,16 @@ public class KullaniciSil extends JFrame {
                     String gorev = rs.getString("Gorev");
                     checkStmt.close();
                     
-                    // Check if user is super-admin
                     if ("super-admin".equals(gorev)) {
                         JOptionPane.showMessageDialog(null, "Super-admin kullanıcıları silemezsiniz.", "Hata", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-                    
-                    // Check if user is the current user
+
                     if (currentKullaniciAdi.equals(kullaniciAdi)) {
                         JOptionPane.showMessageDialog(null, "Kendi hesabınızı silemezsiniz.", "Hata", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-                    
-                    // Proceed with deletion
+
                     int confirmation = JOptionPane.showConfirmDialog(null, 
                             "Hesap No " + hesapNoToDelete + " olan kullanıcıyı (" + kullaniciAdi + ") silmek istediğinize emin misiniz?", 
                             "Silme Onayı", 
