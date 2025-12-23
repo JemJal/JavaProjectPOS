@@ -89,8 +89,8 @@ public class Giris extends JFrame {
 		contentPane.add(lblPinKodu);
 		
 		JTextArea txtrUserAdmin = new JTextArea();
-		txtrUserAdmin.setText("user: admin  -> pass: 9999\nuser: ayse -> pass: 1234\nuser: mehmet -> pass: 5678");
-		txtrUserAdmin.setBounds(200, 375, 207, 70);
+		txtrUserAdmin.setText("super-admin -> admin  -> 9999\nadmin -> asli -> 8888\nkasiyer -> ayse -> 1234\nkasiyer -> mehmet -> 5678");
+		txtrUserAdmin.setBounds(175, 374, 259, 70);
 		contentPane.add(txtrUserAdmin);
 		
 		btnGiris.addActionListener(new ActionListener() {

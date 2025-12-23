@@ -239,7 +239,8 @@ Gorev varchar(30)
 
 INSERT INTO Kullanici (KullaniciAdi, AdiSoyadi, PinKodu, Gorev)
 VALUES
-	('admin', 'Admin', 9999, 'admin'),
+	('admin', 'Admin', 9999, 'super-admin'),
+	('asli', 'Asli Çelik', 8888, 'admin'),
 	('ayse', 'Ayşe Kaya', 1234, 'kasiyer'),
 	('mehmet', 'Mehmet Sönmez', 5678, 'kasiyer');
 
