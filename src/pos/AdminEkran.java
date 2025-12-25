@@ -43,14 +43,13 @@ public class AdminEkran extends JFrame {
 
 	JLabel lblUsername, lblAdiSoyadi, lblGorev;
 
-	// Field to store current username
 	private String currentUsername;
 
 	/**
 	 * Create the frame.
 	 */
 	public AdminEkran() {
-		this(""); // Default constructor calls parameterized constructor with empty string
+		this("");
 	}
 
 	/**
@@ -60,7 +59,7 @@ public class AdminEkran extends JFrame {
 		this.currentUsername = username;
 		setTitle("Admin Paneli");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(550, 250, 600, 500);
+		setBounds(550, 250, 600, 600);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(82, 82, 82));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -68,7 +67,7 @@ public class AdminEkran extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnYeniUrun = new JButton("Yeni Urun Ekle");
+		JButton btnYeniUrun = new JButton("Yeni Ürün Ekle");
 		btnYeniUrun.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -83,7 +82,7 @@ public class AdminEkran extends JFrame {
 		btnYeniUrun.setBounds(145, 117, 310, 50);
 		contentPane.add(btnYeniUrun);
 		
-		JButton btnYeniKasiyer = new JButton("Yeni Kasiyer Ekle");
+		JButton btnYeniKasiyer = new JButton("Yeni Kullanıcı Ekle");
 		btnYeniKasiyer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -97,7 +96,7 @@ public class AdminEkran extends JFrame {
 		btnYeniKasiyer.setBounds(145, 306, 310, 50);
 		contentPane.add(btnYeniKasiyer);
 		
-		JButton btnUrunSil = new JButton("Urun Sil");
+		JButton btnUrunSil = new JButton("Ürün Sil");
 		btnUrunSil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -111,7 +110,7 @@ public class AdminEkran extends JFrame {
 		btnUrunSil.setBounds(145, 220, 310, 50);
 		contentPane.add(btnUrunSil);
 		
-		JButton btnKasiyerSil = new JButton("Kasiyer Sil");
+		JButton btnKasiyerSil = new JButton("Kullanıcı Sil");
 		btnKasiyerSil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -132,7 +131,7 @@ public class AdminEkran extends JFrame {
 		lblAdminPaneli.setBounds(145, 6, 310, 50);
 		contentPane.add(lblAdminPaneli);
 		
-		JLabel lblUrunIslemleri = new JLabel("Urun Islemleri:");
+		JLabel lblUrunIslemleri = new JLabel("Ürün İşlemleri:");
 		lblUrunIslemleri.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblUrunIslemleri.setHorizontalAlignment(SwingConstants.LEFT);
 		lblUrunIslemleri.setForeground(Color.WHITE);
@@ -140,7 +139,7 @@ public class AdminEkran extends JFrame {
 		lblUrunIslemleri.setBounds(145, 68, 155, 50);
 		contentPane.add(lblUrunIslemleri);
 		
-		JLabel lblPersonelIslemleri = new JLabel("Personel Islemleri:");
+		JLabel lblPersonelIslemleri = new JLabel("Personel İşlemleri:");
 		lblPersonelIslemleri.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblPersonelIslemleri.setHorizontalAlignment(SwingConstants.LEFT);
 		lblPersonelIslemleri.setForeground(Color.WHITE);
@@ -159,7 +158,7 @@ public class AdminEkran extends JFrame {
 		btnCikis.setForeground(Color.BLACK);
 		btnCikis.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
 		btnCikis.setBackground(Color.WHITE);
-		btnCikis.setBounds(368, 416, 173, 50);
+		btnCikis.setBounds(421, 516, 173, 50);
 		contentPane.add(btnCikis);
 		
 		JButton btnStokEkle = new JButton("Stok Ekle");
@@ -175,5 +174,27 @@ public class AdminEkran extends JFrame {
 		btnStokEkle.setBackground(Color.WHITE);
 		btnStokEkle.setBounds(145, 167, 310, 50);
 		contentPane.add(btnStokEkle);
+		
+		JLabel lblSatisIslemleri = new JLabel("Satış İşlemleri:");
+		lblSatisIslemleri.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblSatisIslemleri.setHorizontalAlignment(SwingConstants.LEFT);
+		lblSatisIslemleri.setForeground(Color.WHITE);
+		lblSatisIslemleri.setFont(new Font("Arial Narrow", Font.PLAIN, 21));
+		lblSatisIslemleri.setBounds(145, 395, 155, 50);
+		contentPane.add(lblSatisIslemleri);
+		
+		JButton btnSatislariIncele = new JButton("Satışları İncele");
+		btnSatislariIncele.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				Satislar sie = new Satislar();
+				sie.setVisible(true);
+			}
+		});
+		btnSatislariIncele.setForeground(Color.BLACK);
+		btnSatislariIncele.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
+		btnSatislariIncele.setBackground(Color.WHITE);
+		btnSatislariIncele.setBounds(145, 444, 310, 50);
+		contentPane.add(btnSatislariIncele);
 	}
 }

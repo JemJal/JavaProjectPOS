@@ -125,7 +125,7 @@ public class Giris extends JFrame {
 						ae.setVisible(true);
 					} else if(cnt == 2) {
 						dispose();
-						SatisEkran se = new SatisEkran();
+						SatisEkran se = new SatisEkran(username);
 						se.setVisible(true);
 					}else
 					{
