@@ -90,8 +90,6 @@ public class Satislar extends JFrame {
 
                 try {
                     int satisNo = Integer.parseInt(satisNoStr);
-
-                    // Open SatisDetay screen with the given SatisNo
                     dispose();
                     SatisDetay sd = new SatisDetay(satisNo);
                     sd.setVisible(true);
@@ -110,9 +108,9 @@ public class Satislar extends JFrame {
         JButton btnGeri = new JButton("Geri");
         btnGeri.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                Giris ge = new Giris();
-                ge.setVisible(true);
+            	dispose();
+                AdminEkran ae = new AdminEkran();
+				ae.setVisible(true);
             }
         });
         btnGeri.setForeground(Color.BLACK);

@@ -166,7 +166,6 @@ public class SatisEkran extends JFrame {
 
                         boolean stokYeterli = true;
 
-                        // Validate stock availability first
                         for (int i = 0; i < model.getRowCount(); i++) {
                             int satisMiktari = Integer.parseInt(model.getValueAt(i, 3).toString());
                             if (satisMiktari > 0) {
@@ -180,7 +179,6 @@ public class SatisEkran extends JFrame {
                         }
 
                         if (stokYeterli) {
-                            // Insert sale header into Satislar table
                             String sqlSatislar = "INSERT INTO Satislar (Satici, Musteri, Total) VALUES (?, ?, ?)";
                             prstSatislar = conn.prepareStatement(sqlSatislar);
 
@@ -198,7 +196,6 @@ public class SatisEkran extends JFrame {
                             prstSatislar.close();
                             prstSatislar = null;
 
-                            // Retrieve auto-generated SatisNo using SQLite's last_insert_rowid()
                             Statement stmt = conn.createStatement();
                             ResultSet rs = stmt.executeQuery("SELECT last_insert_rowid()");
                             int satisNo = -1;
@@ -212,11 +209,9 @@ public class SatisEkran extends JFrame {
                             rs.close();
                             stmt.close();
 
-                            // Prepare Satis_Detay insert statement
                             String sqlDetay = "INSERT INTO Satis_Detay (SatisNo, UrunNo, Miktar, Fiyat) VALUES (?, ?, ?, ?)";
                             prstDetay = conn.prepareStatement(sqlDetay);
 
-                            // Insert sale details and update stock
                             for (int i = 0; i < model.getRowCount(); i++) {
                                 int satisMiktari = Integer.parseInt(model.getValueAt(i, 3).toString());
 
@@ -224,14 +219,12 @@ public class SatisEkran extends JFrame {
                                     int urunNo = urunNoList.get(i);
                                     double fiyat = Double.parseDouble(model.getValueAt(i, 1).toString());
 
-                                    // Insert sale detail
                                     prstDetay.setInt(1, satisNo);
                                     prstDetay.setInt(2, urunNo);
                                     prstDetay.setInt(3, satisMiktari);
                                     prstDetay.setDouble(4, fiyat);
                                     prstDetay.executeUpdate();
 
-                                    // Update stock
                                     String sqlStok = "UPDATE Urunler SET Stok = Stok - ? WHERE UrunNo = ?";
                                     PreparedStatement prstStok = conn.prepareStatement(sqlStok);
                                     prstStok.setInt(1, satisMiktari);
@@ -270,7 +263,6 @@ public class SatisEkran extends JFrame {
                             "Hata", JOptionPane.ERROR_MESSAGE);
                         hata.printStackTrace();
                     } finally {
-                        // Close prepared statements
                         try {
                             if (prstSatislar != null) prstSatislar.close();
                             if (prstDetay != null) prstDetay.close();

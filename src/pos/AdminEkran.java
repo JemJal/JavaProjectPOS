@@ -79,7 +79,7 @@ public class AdminEkran extends JFrame {
 		btnYeniUrun.setBackground(new Color(255, 255, 255));
 		btnYeniUrun.setForeground(Color.BLACK);
 		btnYeniUrun.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
-		btnYeniUrun.setBounds(145, 117, 310, 50);
+		btnYeniUrun.setBounds(60, 120, 221, 50);
 		contentPane.add(btnYeniUrun);
 		
 		JButton btnYeniKasiyer = new JButton("Yeni Kullanıcı Ekle");
@@ -96,19 +96,19 @@ public class AdminEkran extends JFrame {
 		btnYeniKasiyer.setBounds(145, 306, 310, 50);
 		contentPane.add(btnYeniKasiyer);
 		
-		JButton btnUrunSil = new JButton("Ürün Sil");
-		btnUrunSil.addActionListener(new ActionListener() {
+		JButton btnUrunDuzelt = new JButton("Ürün Düzelt");
+		btnUrunDuzelt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				UrunSil use = new UrunSil();
-				use.setVisible(true);
+				UrunDuzelt ude = new UrunDuzelt();
+				ude.setVisible(true);
 			}
 		});
-		btnUrunSil.setBackground(new Color(255, 255, 255));
-		btnUrunSil.setForeground(Color.BLACK);
-		btnUrunSil.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
-		btnUrunSil.setBounds(145, 220, 310, 50);
-		contentPane.add(btnUrunSil);
+		btnUrunDuzelt.setBackground(new Color(255, 255, 255));
+		btnUrunDuzelt.setForeground(Color.BLACK);
+		btnUrunDuzelt.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
+		btnUrunDuzelt.setBounds(279, 120, 221, 50);
+		contentPane.add(btnUrunDuzelt);
 		
 		JButton btnKasiyerSil = new JButton("Kullanıcı Sil");
 		btnKasiyerSil.addActionListener(new ActionListener() {
@@ -172,7 +172,7 @@ public class AdminEkran extends JFrame {
 		btnStokEkle.setForeground(Color.BLACK);
 		btnStokEkle.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
 		btnStokEkle.setBackground(Color.WHITE);
-		btnStokEkle.setBounds(145, 167, 310, 50);
+		btnStokEkle.setBounds(60, 166, 221, 50);
 		contentPane.add(btnStokEkle);
 		
 		JLabel lblSatisIslemleri = new JLabel("Satış İşlemleri:");
@@ -196,5 +196,16 @@ public class AdminEkran extends JFrame {
 		btnSatislariIncele.setBackground(Color.WHITE);
 		btnSatislariIncele.setBounds(145, 444, 310, 50);
 		contentPane.add(btnSatislariIncele);
+		
+		JButton btnUrunSil_1 = new JButton("Ürün Sil");
+		btnUrunSil_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnUrunSil_1.setForeground(Color.BLACK);
+		btnUrunSil_1.setFont(new Font("Arial Narrow", Font.PLAIN, 24));
+		btnUrunSil_1.setBackground(Color.WHITE);
+		btnUrunSil_1.setBounds(279, 166, 221, 50);
+		contentPane.add(btnUrunSil_1);
 	}
 }
