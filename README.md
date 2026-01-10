@@ -1,231 +1,296 @@
-# JavaProjectPOS - Point of Sale System
+# JavaProjectPOS - Satış Noktası Sistemi
 
-A desktop-based Point of Sale system built with Java Swing for managing retail operations including product inventory, user authentication, and sales transactions.
+Perakende operasyonlarını yönetmek için ürün envanteri, kullanıcı kimlik doğrulaması ve satış işlemleri içeren Java Swing ile oluşturulmuş masaüstü tabanlı bir Satış Noktası sistemi.
 
-## Table of Contents
-- [Setup Instructions](#setup-instructions)
-- [Database Schema](#database-schema)
-- [Project Structure](#project-structure)
-- [Java Files Documentation](#java-files-documentation)
-- [Database Setup](#database-setup)
+## İçindekiler
+- [Kurulum Talimatları](#kurulum-talimatları)
+- [Veritabanı Şeması](#veritabanı-şeması)
+- [Proje Yapısı](#proje-yapısı)
+- [Java Dosyaları Belgelendirmesi](#java-dosyaları-belgelendirmesi)
+- [Veritabanı Kurulumu](#veritabanı-kurulumu)
 
-## Setup Instructions
+## Kurulum Talimatları
 
-1. Download and install Window Builder on Eclipse Marketplace
-2. Create a `Data` sub directory under your root.
-3. Move `rs2xml.jar`, `sqlite.jar` and `sqlitejdbc.jar` files into the Data directory.
-4. Open Google Chrome and install `SQLite Manager` extension from the Google Chrome Marketplace.
-5. Create a new database on Chrome using the new extension and download it.
-6. Move the file you downloaded to your Data sub-directory.
-7. On Eclipse, right-click your root directory. Go to `Build Path` -> `Configure Build Path...`
-8. Under Java Build Path go to Libraries and click on Modulepath. Click `Add JARs...` and choose your `sqlite.jar` and `sqlitejdbc.jar` files, click Ok. Now, click on Classpath, click `Add JARs...` choose the `rs2xml.jar` file, click Ok. Click `Apply and Close`.
-9. Create a Package under src directory.
-10. After you right-click the package, go to New -> Other.
-11. Under Window Builder -> Swing Designer choose JFrame and click Next. You can start building your app now.
-12. When you want to re-open a previously written JFrame code, right-click the file and choose Open With and choose WindowBuilder Editor.
+1. Eclipse Marketplace'ten Window Builder'ı indirin ve kurun
+2. Proje kök dizini altında bir `Data` alt dizini oluşturun.
+3. `rs2xml.jar`, `sqlite.jar` ve `sqlitejdbc.jar` dosyalarını Data dizinine taşıyın.
+4. Google Chrome'u açın ve `SQLite Manager` uzantısını Google Chrome Marketplace'ten kurun.
+5. Chrome'da yeni uzantıyı kullanarak yeni bir veritabanı oluşturun ve indirin.
+6. İndirdiğiniz dosyayı Data alt dizininize taşıyın.
+7. Eclipse'te kök dizininizi sağ tıklayın. `Build Path` -> `Configure Build Path...` seçeneğine gidin
+8. Java Build Path bölümüne gidin ve Libraries'i tıklayın, Modulepath'i tıklayın. `Add JARs...` seçeneğini tıklayın ve `sqlite.jar` ile `sqlitejdbc.jar` dosyalarını seçin, Tamam'ı tıklayın. Şimdi Classpath'i tıklayın, `Add JARs...` seçeneğini tıklayın ve `rs2xml.jar` dosyasını seçin, Tamam'ı tıklayın. `Apply and Close` seçeneğini tıklayın.
+9. src dizini altında bir Package oluşturun.
+10. Package'ı sağ tıkladıktan sonra, New -> Other seçeneğine gidin.
+11. Window Builder -> Swing Designer bölümünde JFrame seçeneğini seçin ve Next'i tıklayın. Şimdi uygulamanızı oluşturmaya başlayabilirsiniz.
+12. Daha önce yazılmış bir JFrame kodunu yeniden açmak istediğinizde, dosyayı sağ tıklayın ve Open With seçeneğini seçin ve WindowBuilder Editor'ı seçin.
 
-## Database Schema
+## Veritabanı Şeması
 
-### Kullanici Table (Users)
+### Kullanici Tablosu (Kullanıcılar)
 ```
 HesapNo (INTEGER, PRIMARY KEY, AUTOINCREMENT)
-├─ Automatically increments when a new user is created
-├─ Starts at 1 and increments by 1 for each new record
-└─ Uniquely identifies each user
+├─ Yeni bir kullanıcı oluşturulduğunda otomatik olarak artar
+├─ 1'den başlar ve her yeni kayıt için 1 artar
+└─ Her kullanıcıyı benzersiz şekilde tanımlar
 
-KullaniciAdi (VARCHAR 30) - Username for login
-AdiSoyadi (VARCHAR 30) - Full name of the user
-PinKodu (INTEGER) - PIN/password for authentication
-Gorev (VARCHAR 30) - User role: 'admin', 'super-admin', or 'kasiyer' (cashier)
+KullaniciAdi (VARCHAR 30) - Giriş için kullanıcı adı
+AdiSoyadi (VARCHAR 30) - Kullanıcının tam adı
+PinKodu (INTEGER) - Kimlik doğrulaması için PIN/şifre
+Gorev (VARCHAR 30) - Kullanıcı rolü: 'admin', 'super-admin' veya 'kasiyer'
 ```
 
-### Urunler Table (Products)
+### Urunler Tablosu (Ürünler)
 ```
 UrunNo (INTEGER, PRIMARY KEY, AUTOINCREMENT)
-├─ Automatically increments when a new product is added
-├─ Starts at 1 and increments by 1 for each new record
-└─ Uniquely identifies each product
+├─ Yeni bir ürün eklendiğinde otomatik olarak artar
+├─ 1'den başlar ve her yeni kayıt için 1 artar
+└─ Her ürünü benzersiz şekilde tanımlar
 
-Ad (VARCHAR 30) - Product name
-Fiyat (DECIMAL 10,2) - Product price with 2 decimal places
-Stok (INTEGER) - Current stock quantity
+Ad (VARCHAR 30) - Ürün adı
+Fiyat (DECIMAL 10,2) - Ürün fiyatı (2 ondalık basamak ile)
+Stok (INTEGER) - Mevcut stok miktarı
 ```
 
-**How AUTOINCREMENT Works:**
-- When you insert a record without specifying the ID, SQLite automatically assigns the next available number
-- The sqlite_sequence table tracks the highest ID used for each table
-- This ensures no duplicate IDs and maintains data integrity
+**AUTOINCREMENT Nasıl Çalışır:**
+- Kimlik belirtmeden bir kayıt eklediğinizde, SQLite otomatik olarak sonraki kullanılabilir numarayı atar
+- sqlite_sequence tablosu her tablo için kullanılan en yüksek kimliği izler
+- Bu, hiç kimlik yinelemesini engeller ve veri bütünlüğünü korur
 
-## Project Structure
+## Proje Yapısı
 
 ```
 src/pos/
-├── Baglanti.java           - Database connection manager
-├── Giris.java              - Login screen (entry point)
-├── AdminEkran.java         - Admin dashboard
-├── SatisEkran.java         - Sales/cashier interface
-├── UrunEkle.java           - Add new product
-├── UrunSil.java            - Delete product
-├── StokEkle.java           - Add stock to existing product
-├── KullaniciEkle.java      - Add new user/cashier
-├── KullaniciSil.java       - Delete user/cashier
-├── KasiyerEkran.java       - Alternative cashier screen
-└── KasiyerEkle.java        - Add new cashier
+├── Baglanti.java           - Veritabanı bağlantı yöneticisi
+├── Giris.java              - Giriş ekranı (başlangıç noktası)
+├── AdminEkran.java         - Yönetici panosu
+├── SatisEkran.java         - Satış/kasiyer arayüzü
+├── UrunEkle.java           - Yeni ürün ekle
+├── UrunSil.java            - Ürün sil
+├── StokEkle.java           - Mevcut ürüne stok ekle
+├── KullaniciEkle.java      - Yeni kullanıcı/kasiyer ekle
+├── KullaniciSil.java       - Kullanıcı/kasiyer sil
+├── KasiyerEkran.java       - Alternatif kasiyer ekranı
+└── KasiyerEkle.java        - Yeni kasiyer ekle
 ```
 
-## Java Files Documentation
+## Java Dosyaları Belgelendirmesi
 
 ### Baglanti.java
-**Purpose:** Database connection utility
-- **Bagla() method:** Establishes connection to SQLite database
-  - Loads SQLite JDBC driver: `org.sqlite.JDBC`
-  - Connects to `Data/memory.db`
-  - Returns Connection object or null if error occurs
-  - Shows error dialog if connection fails
-- **Usage:** Called by all other screens to get database connection
+**Amaç:** Veritabanı bağlantı yardımcı programı
+- **Bagla() metodu:** SQLite veritabanına bağlantı kurar
+  - SQLite JDBC sürücüsünü yükler: `org.sqlite.JDBC`
+  - `Data/memory.db` dosyasına bağlanır
+  - Bağlantı nesnesi döndürür veya hata oluşursa null döndürür
+  - Bağlantı başarısız olursa hata iletişim kutusu gösterir
+- **Kullanım:** Diğer tüm ekranlar tarafından veritabanı bağlantısı almak için çağrılır
 
 ### Giris.java
-**Purpose:** Login screen (application entry point)
-- **Main Screen:** 600x500 pixel window with dark gray background
-- **Input Fields:**
-  - Username text field
-  - Password text field
-  - Displays default credentials as reference
-- **Login Logic:**
-  - Gets username and PIN from user input
-  - Executes prepared statement: `SELECT * FROM Kullanici WHERE KullaniciAdi = ? AND PinKodu = ?`
-  - Uses PreparedStatement to prevent SQL injection
-  - Checks user role (Gorev) from database
-- **Navigation:**
-  - Admin/Super-admin (cnt=1) → Opens AdminEkran with username
-  - Cashier (cnt=2) → Opens SatisEkran
-  - Invalid credentials → Shows "Başarısız.." error message
-- **Security:** Uses PreparedStatement with parameterized queries
+**Amaç:** Giriş ekranı (uygulama başlangıç noktası)
+- **Ana Ekran:** Koyu gri arka planlı 600x500 piksellik pencere
+- **Giriş Alanları:**
+  - Kullanıcı adı metin alanı
+  - Şifre metin alanı
+  - Varsayılan kimlik bilgilerini referans olarak gösterir
+- **Giriş Mantığı:**
+  - Kullanıcı adı ve PIN'i kullanıcı girişinden alır
+  - Hazırlanmış ifadeyi çalıştırır: `SELECT * FROM Kullanici WHERE KullaniciAdi = ? AND PinKodu = ?`
+  - SQL enjeksiyonundan korunmak için PreparedStatement kullanır
+  - Veritabanından kullanıcı rolünü (Gorev) kontrol eder
+- **Gezinti:**
+  - Yönetici/Süper yönetici (cnt=1) → AdminEkran'ı kullanıcı adı ile açar
+  - Kasiyer (cnt=2) → SatisEkran'ı açar
+  - Geçersiz kimlik bilgileri → "Başarısız.." hata mesajı gösterir
+- **Güvenlik:** Parametrelendirilmiş sorgularla PreparedStatement kullanır
 
 ### AdminEkran.java
-**Purpose:** Admin dashboard for managing products and users
-- **Constructor:** Accepts username parameter to track current logged-in admin
-  - Stores username in `currentUsername` field for later use
-  - Default constructor calls parameterized constructor with empty string
-- **Menu Buttons:**
-  - **Yeni Urun Ekle** → Opens UrunEkle screen
-  - **Stok Ekle** → Opens StokEkle screen
-  - **Urun Sil** → Opens UrunSil screen
-  - **Yeni Kasiyer Ekle** → Opens KullaniciEkle screen
-  - **Kasiyer Sil** → Opens KullaniciSil with current admin username (prevents self-deletion)
-  - **Çıkış** → Returns to login screen
-- **Access Control:** Only accessible to users with 'admin' or 'super-admin' role
+**Amaç:** Ürün ve kullanıcıları yönetmek için yönetici panosu
+- **Yapıcı:** Oturum açan yöneticinin izlenmesi için kullanıcı adı parametresini kabul eder
+  - Kullanıcı adını daha sonra kullanmak için `currentUsername` alanında depolar
+  - Varsayılan yapıcı parametreli yapıcıyı boş dize ile çağırır
+- **Menü Düğmeleri:**
+  - **Yeni Urun Ekle** → UrunEkle ekranını açar
+  - **Stok Ekle** → StokEkle ekranını açar
+  - **Urun Sil** → UrunSil ekranını açar
+  - **Yeni Kasiyer Ekle** → KullaniciEkle ekranını açar
+  - **Kasiyer Sil** → KullaniciSil'i mevcut yönetici kullanıcı adı ile açar (kendi kendini silmeyi önler)
+  - **Çıkış** → Giriş ekranına döner
+- **Erişim Kontrolü:** Yalnızca 'admin' veya 'super-admin' rolüne sahip kullanıcılar tarafından erişilebilir
 
 ### SatisEkran.java
-**Purpose:** Sales/Cashier interface for completing transactions
-- **Product Display:**
-  - Loads all products with stock > 0 from database
-  - Table columns: Ürün Adı, Fiyat, Stok, Satış Miktarı
-  - Only "Satış Miktarı" column is editable
-- **Transaction Logic:**
-  - **Hesapla Button:** Calculates total price (fiyat × satisMiktarı) and updates label
-  - **Kaydet Button:**
-    - Validates that total > 0
-    - Uses database transactions (setAutoCommit(false))
-    - Checks if ordered quantity ≤ available stock for each item
-    - If valid: Updates product stock and commits transaction
-    - If invalid: Rolls back transaction and shows error
-    - Shows confirmation dialog with total amount
-- **Error Handling:** Automatic rollback on insufficient stock or database errors
-- **Inventory Management:** Uses PreparedStatement to update stock atomically
+**Amaç:** İşlemleri tamamlamak için Satış/Kasiyer arayüzü
+- **Ürün Gösterimi:**
+  - Veritabanından stok > 0 olan tüm ürünleri yükler
+  - Tablo sütunları: Ürün Adı, Fiyat, Stok, Satış Miktarı
+  - Yalnızca "Satış Miktarı" sütunu düzenlenebilir
+- **İşlem Mantığı:**
+  - **Hesapla Düğmesi:** Toplam fiyatı (fiyat × satisMiktarı) hesaplar ve etiketi günceller
+  - **Kaydet Düğmesi:**
+    - Toplamın > 0 olduğunu doğrular
+    - Veritabanı işlemlerini kullanır (setAutoCommit(false))
+    - Sipariş edilen miktarın ≤ mevcut stoka olup olmadığını kontrol eder
+    - Geçerliyse: Ürün stokunu günceller ve işlemi kaydeder
+    - Geçersizse: İşlemi geri alır ve hata gösterir
+    - Toplam tutarı içeren onay iletişim kutusunu gösterir
+- **Hata İşleme:** Yetersiz stok veya veritabanı hataları üzerine otomatik geri alma
+- **Envanter Yönetimi:** Stoğu atomik olarak güncellemek için PreparedStatement kullanır
 
 ### UrunEkle.java
-**Purpose:** Add new products to inventory
-- **Input Fields:**
-  - Ürün Adı (Product name)
-  - Fiyat (Product price) - converts comma to period for decimal
-  - Miktar (Initial stock quantity)
-- **Validation:**
-  - Checks all fields are filled
-  - Validates price and quantity are valid numbers
-  - Shows error messages for invalid input
-- **Database Operation:**
-  - INSERT statement: `INSERT INTO Urunler (Ad, Fiyat, Stok) VALUES (?, ?, ?)`
-  - Auto-incremented UrunNo is assigned by database
-  - Clears form after successful insertion
-- **Navigation:** Geri button returns to login screen
+**Amaç:** Envantera yeni ürün ekle
+- **Giriş Alanları:**
+  - Ürün Adı (Ürün adı)
+  - Fiyat (Ürün fiyatı) - virgülü ondalık için noktaya dönüştürür
+  - Miktar (İlk stok miktarı)
+- **Doğrulama:**
+  - Tüm alanların doldurulup doldurulmadığını kontrol eder
+  - Fiyat ve miktarın geçerli sayılar olduğunu doğrular
+  - Geçersiz giriş için hata mesajları gösterir
+- **Veritabanı İşlemi:**
+  - INSERT ifadesi: `INSERT INTO Urunler (Ad, Fiyat, Stok) VALUES (?, ?, ?)`
+  - Otomatik artan UrunNo veritabanı tarafından atanır
+  - Başarılı ekleme sonrası formu temizler
+- **Gezinti:** Geri düğmesi giriş ekranına döner
 
 ### UrunSil.java
-**Purpose:** Delete products from inventory
-- **Display:** JTable showing all products (UrunNo, Ad, Fiyat, Stok)
-- **Deletion Process:**
-  - User enters product UrunNo in text field
-  - Shows confirmation dialog before deletion
-  - DELETE statement: `DELETE FROM Urunler WHERE UrunNo = ?`
-  - Refreshes table after successful deletion
-  - Shows error if product number not found
-- **Error Handling:** Validates input is numeric, shows appropriate error messages
-- **Navigation:** Geri button returns to login screen
+**Amaç:** Envanterden ürün sil
+- **Görüntü:** Tüm ürünleri gösteren JTable (UrunNo, Ad, Fiyat, Stok)
+- **Silme İşlemi:**
+  - Kullanıcı metin alanına ürün UrunNo'sunu girer
+  - Silinmeden önce onay iletişim kutusunu gösterir
+  - DELETE ifadesi: `DELETE FROM Urunler WHERE UrunNo = ?`
+  - Başarılı silme sonrası tabloyu yeniler
+  - Ürün numarası bulunamazsa hata gösterir
+- **Hata İşleme:** Girişin sayısal olduğunu doğrular, uygun hata mesajlarını gösterir
+- **Gezinti:** Geri düğmesi giriş ekranına döner
 
 ### StokEkle.java
-**Purpose:** Add stock quantity to existing products
-- **Display:** JTable with all products
-- **Input Fields:**
-  - Ürün No (product ID)
-  - Eklenecek Miktar (quantity to add)
-- **Update Logic:**
-  - UPDATE statement: `UPDATE Urunler SET Stok = Stok + ? WHERE UrunNo = ?`
-  - Validates quantity > 0
-  - Validates product exists
-  - Updates database and refreshes table
-- **Validation:** Prevents negative stock additions, validates numeric input
-- **Navigation:** Geri button returns to login screen
+**Amaç:** Mevcut ürünlere stok miktarı ekle
+- **Görüntü:** Tüm ürünleri içeren JTable
+- **Giriş Alanları:**
+  - Ürün No (ürün kimliği)
+  - Eklenecek Miktar (eklenecek miktar)
+- **Güncelleme Mantığı:**
+  - UPDATE ifadesi: `UPDATE Urunler SET Stok = Stok + ? WHERE UrunNo = ?`
+  - Miktar > 0 olduğunu doğrular
+  - Ürünün var olduğunu doğrular
+  - Veritabanını günceller ve tabloyu yeniler
+- **Doğrulama:** Negatif stok eklemelerini engeller, sayısal girişi doğrular
+- **Gezinti:** Geri düğmesi giriş ekranına döner
 
 ### KullaniciEkle.java
-**Purpose:** Add new users/cashiers to the system
-- **Input Fields:**
-  - Kullanici Adi (Username)
-  - Adi Soyadi (Full name)
-  - Pin Kodu (PIN/Password)
-  - Gorev (Role dropdown) - Options: "kasiyer", "admin"
-- **Validation:**
-  - All fields must be filled
-  - PIN must be numeric
-  - Shows appropriate error messages
-- **Database Operation:**
-  - INSERT statement: `INSERT INTO Kullanici (KullaniciAdi, AdiSoyadi, PinKodu, Gorev) VALUES (?, ?, ?, ?)`
-  - Auto-incremented HesapNo assigned by database
-  - Clears form after successful insertion
-- **Access Control:** Only accessible from admin screen
-- **Navigation:** Geri button returns to login screen
+**Amaç:** Sisteme yeni kullanıcı/kasiyer ekle
+- **Giriş Alanları:**
+  - Kullanici Adi (Kullanıcı adı)
+  - Adi Soyadi (Tam ad)
+  - Pin Kodu (PIN/Şifre)
+  - Gorev (Rol açılır menüsü) - Seçenekler: "kasiyer", "admin"
+- **Doğrulama:**
+  - Tüm alanlar doldurulmalıdır
+  - PIN sayısal olmalıdır
+  - Uygun hata mesajlarını gösterir
+- **Veritabanı İşlemi:**
+  - INSERT ifadesi: `INSERT INTO Kullanici (KullaniciAdi, AdiSoyadi, PinKodu, Gorev) VALUES (?, ?, ?, ?)`
+  - Otomatik artan HesapNo veritabanı tarafından atanır
+  - Başarılı ekleme sonrası formu temizler
+- **Erişim Kontrolü:** Yalnızca yönetici ekranından erişilebilir
+- **Gezinti:** Geri düğmesi giriş ekranına döner
 
 ### KullaniciSil.java
-**Purpose:** Delete users/cashiers from the system with safety checks
-- **Constructor:** Accepts current admin username to prevent self-deletion
-- **Display:** JTable showing all users (HesapNo, KullaniciAdi, AdiSoyadi, Gorev)
-- **Deletion Safeguards:**
-  - Prevents deletion of 'super-admin' role users
-  - Prevents admin from deleting their own account
-  - Requires HesapNo input and confirmation
-- **Deletion Logic:**
-  - Fetches user data first to validate existence and role
-  - Shows confirmation dialog before deletion
-  - DELETE statement: `DELETE FROM Kullanici WHERE HesapNo = ?`
-  - Refreshes table after successful deletion
-- **Error Handling:** Validates numeric input, checks user permissions
-- **Navigation:** Geri button returns to login screen
+**Amaç:** Sistemden kullanıcı/kasiyer silme güvenlik kontrolleriyle sil
+- **Yapıcı:** Kendi kendini silmeyi önlemek için mevcut yönetici kullanıcı adını kabul eder
+- **Görüntü:** Tüm kullanıcıları gösteren JTable (HesapNo, KullaniciAdi, AdiSoyadi, Gorev)
+- **Silme Güvenlik Önlemleri:**
+  - 'super-admin' rolündeki kullanıcıları silinmesini engeller
+  - Yönetici kendi hesabını silemeyi engeller
+  - HesapNo girdisi ve onay gerektirir
+- **Silme Mantığı:**
+  - Önce kullanıcı verilerini alır, varlığını ve rolünü doğrular
+  - Silinmeden önce onay iletişim kutosunu gösterir
+  - DELETE ifadesi: `DELETE FROM Kullanici WHERE HesapNo = ?`
+  - Başarılı silme sonrası tabloyu yeniler
+- **Hata İşleme:** Sayısal girişi doğrular, kullanıcı izinlerini kontrol eder
+- **Gezinti:** Geri düğmesi giriş ekranına döner
 
 ### KasiyerEkran.java
-**Purpose:** Alternative cashier/sales interface
-- Similar functionality to SatisEkran
-- Provides alternative screen layout for cashier operations
+**Amaç:** Alternatif kasiyer/satış arayüzü
+- SatisEkran'a benzer işlevsellik
+- Kasiyer işlemleri için alternatif ekran düzenini sağlar
 
 ### KasiyerEkle.java
-**Purpose:** Add new cashier users
-- Similar functionality to KullaniciEkle
-- Provides alternative interface for adding cashier accounts
+**Amaç:** Yeni kasiyer kullanıcı ekle
+- KullaniciEkle'ye benzer işlevsellik
+- Kasiyer hesapları eklemek için alternatif arayüz sağlar
 
-## Database Setup
+## Kullanıcı Rolleri ve Yetkileri (User Roles and Permissions)
 
-Use the SQL script below to set up clean tables with sample data:
+### Super-Admin (Süper Yönetici)
+**Yapabilecekleri:**
+- Admin paneline erişim
+- Yeni ürün ekleme
+- Ürün silme
+- Ürün bilgilerini düzenleme
+- Ürün stok ekleme
+- Yeni kullanıcı/kasiyer ekleme
+- Admin ve kasiyer kullanıcılarını silme
+- Satış geçmişini ve detaylarını görüntüleme
+
+**Yapamayacakları:**
+- Kendi hesabını silemez
+- Başka super-admin kullanıcılarını silemez
+
+**Varsayılan Giriş:** `admin` / `9999`
+
+---
+
+### Admin (Yönetici)
+**Yapabilecekleri:**
+- Admin paneline erişim
+- Yeni ürün ekleme
+- Ürün silme
+- Ürün bilgilerini düzenleme
+- Ürün stok ekleme
+- Yeni kasiyer ekleme
+- Kasiyer kullanıcılarını silme
+- Satış geçmişini ve detaylarını görüntüleme
+
+**Yapamayacakları:**
+- Kendi hesabını silemez
+- Super-admin kullanıcılarını silemez
+- Diğer admin kullanıcılarını silemez
+- Kasiyer arayüzüne erişemez
+
+**Varsayılan Giriş:** `asli` / `8888`
+
+---
+
+### Kasiyer (Cashier)
+**Yapabilecekleri:**
+- Satış arayüzüne erişim
+- Stokta bulunan ürünleri görüntüleme
+- Satış işlemi yapma (ürün seçme ve miktar girme)
+- Satış hesaplama
+- Müşteri adı ekleme (isteğe bağlı)
+- Satış onaylama ve gerçekleştirme
+- Otomatik stok güncelleme
+
+**Yapamayacakları:**
+- Admin paneline erişemez
+- Ürün ekleyemez, silemez veya düzenleyemez
+- Stok ekleyemez
+- Kullanıcı yönetimi yapamaz
+- Satış geçmişini görüntüleyemez
+
+**Varsayılan Girişler:**
+- `ayse` / `1234`
+- `mehmet` / `5678`
+
+---
+
+## Veritabanı Kurulumu
+
+Temiz tablolar ve örnek veriler ayarlamak için aşağıdaki SQL komut dosyasını kullanın:
 
 ```SQL
--- Drop and re-create Kullanici table
+-- Kullanici tablosunu silip yeniden oluştur
 
 DROP TABLE Kullanici;
 
@@ -244,7 +309,7 @@ VALUES
 	('ayse', 'Ayşe Kaya', 1234, 'kasiyer'),
 	('mehmet', 'Mehmet Sönmez', 5678, 'kasiyer');
 
--- Drop and re-create Urunler table
+-- Urunler tablosunu silip yeniden oluştur
 
 DROP TABLE Urunler;
 
@@ -289,8 +354,8 @@ VALUES
 	('Mercimek', 58.50, 280);
 ```
 
-## Testing Default Credentials
+## Varsayılan Kimlik Bilgilerini Test Etme
 
-- **Admin Login:** Username: `admin` | PIN: `9999`
-- **Cashier 1:** Username: `ayse` | PIN: `1234`
-- **Cashier 2:** Username: `mehmet` | PIN: `5678`
+- **Süper Yönetici Girişi:** Kullanıcı Adı: `admin` | PIN: `9999`
+- **Kasiyer 1:** Kullanıcı Adı: `ayse` | PIN: `1234`
+- **Kasiyer 2:** Kullanıcı Adı: `mehmet` | PIN: `5678`
